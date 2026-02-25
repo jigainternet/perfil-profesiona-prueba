@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nacho García Alonso · Perfil Profesional</title>
+  <style>
+    :root {
+      --brand: #1a1a2e;
+      --accent: #e94560;
+      --accent2: #0f3460;
+      --light: #f5f5f5;
+      --card: #ffffff;
+      --text: #2d2d2d;
+      --muted: #666;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 48px;
+    }
+
+    /* HEADER */
+    header {
+      text-align: center;
+      padding: 40px 20px 24px;
+      color: white;
+      max-width: 680px;
+      width: 100%;
+    }
+    .avatar {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #f0a500);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; font-weight: 900;
+      color: white;
+      margin: 0 auto 18px;
+      box-shadow: 0 0 0 4px rgba(233,69,96,0.4);
+    }
+    header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
+    header .tagline {
+      margin-top: 8px;
+      font-size: 1rem;
+      opacity: 0.75;
+      font-style: italic;
+    }
+
+    /* MAIN CARD */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      max-width: 720px;
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    /* WELCOME SCREEN */
+    #welcome p {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    #welcome strong { color: var(--accent2); }
+    .question-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 14px;
+      display: block;
+    }
+    .personas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media(max-width: 500px){ .personas { grid-template-columns: 1fr; } }
+    .persona-btn {
+      border: 2px solid #e0e0e0;
+      border-radius: var(--radius);
+      padding: 18px 14px;
+      cursor: pointer;
+      background: var(--light);
+      transition: all .2s;
+      text-align: left;
+    }
+    .persona-btn:hover {
+      border-color: var(--accent);
+      background: #fff5f5;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(233,69,96,0.15);
+    }
+    .persona-btn .icon { font-size: 1.6rem; margin-bottom: 6px; display: block; }
+    .persona-btn .ptitle { font-weight: 700; font-size: 0.95rem; color: var(--brand); }
+    .persona-btn .pdesc { font-size: 0.82rem; color: var(--muted); margin-top: 3px; }
+
+    /* CONTENT SCREEN */
+    #content { display: none; }
+    .back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 20px;
+      padding: 0;
+    }
+    .back-btn:hover { text-decoration: underline; }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--brand);
+      margin-bottom: 6px;
+    }
+    .section-sub {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    /* TOPIC NAVIGATION */
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .topic-btn {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid #ddd;
+      background: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--brand);
+      transition: all .18s;
+    }
+    .topic-btn:hover, .topic-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* CONTENT PANELS */
+    .panel { display: none; animation: fadeIn .3s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .info-block {
+      background: var(--light);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .info-block h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 8px;
+    }
+    .tag-cloud {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+    }
+    .tag {
+      background: var(--accent2);
+      color: white;
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .tag.green { background: #1a7a4a; }
+    .tag.orange { background: #c86a1a; }
+    .tag.purple { background: #5a2d82; }
+
+    .timeline {
+      position: relative;
+      padding-left: 24px;
+      margin-top: 10px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 7px; top: 6px; bottom: 6px;
+      width: 2px; background: #e0e0e0;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 18px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute; left: -21px; top: 5px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .tl-year {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 1px; text-transform: uppercase;
+    }
+    .tl-text {
+      font-size: 0.93rem; color: var(--text); line-height: 1.5; margin-top: 2px;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white;
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-top: 18px;
+    }
+    .highlight-box h3 { font-size: 1rem; margin-bottom: 10px; opacity: 0.8; }
+    .highlight-box ul { list-style: none; }
+    .highlight-box li {
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .highlight-box li:last-child { border-bottom: none; }
+    .highlight-box li span:first-child { opacity: 0.6; flex-shrink: 0; }
+
+    /* CONTACT STRIP */
+    .contact-strip {
+      background: var(--accent);
+      color: white;
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .contact-strip p { font-size: 0.92rem; line-height: 1.4; }
+    .contact-strip strong { display: block; font-size: 1.05rem; }
+    .contact-strip a {
+      background: white;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 10px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .contact-strip a:hover { background: #ffe0e0; }
+
+    footer {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.78rem;
+      text-align: center;
+      margin-top: 28px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="avatar">NG</div>
+  <h1>Nacho García Alonso</h1>
+  <p class="tagline">Consultor · Innovador Digital · Especialista en IA & Automatización</p>
+</header>
+
+<div class="card">
+
+  <!-- ========== WELCOME SCREEN ========== -->
+  <div id="welcome">
+    <p>
+      ¡Bienvenido/a! Soy el asistente virtual de <strong>Nacho García Alonso</strong>,
+      un profesional con más de 25 años de trayectoria en el mundo empresarial y
+      una fuerte apuesta por la innovación digital y la Inteligencia Artificial.
+    </p>
+    <p>
+      Para ofrecerte la información más relevante y útil,
+      <strong>me gustaría saber quién eres</strong> y qué te ha traído hasta aquí.
+    </p>
+    <span class="question-label">¿Cuál de estas opciones te describe mejor?</span>
+    <div class="personas">
+      <button class="persona-btn" onclick="showContent('rrhh')">
+        <span class="icon">🏢</span>
+        <span class="ptitle">Empresa / RRHH</span>
+        <span class="pdesc">Busco talento o evalúo un perfil para colaborar</span>
+      </button>
+      <button class="persona-btn" onclick="showContent('cliente')">
+        <span class="icon">💼</span>
+        <span class="ptitle">Potencial cliente</span>
+        <span class="pdesc">Quiero saber si puede ayudar a mi negocio</span>
+      </button>
+      <button class="persona-btn" onclick="showContent('colega')">
+        <span class="icon">🤝</span>
+        <span class="ptitle">Colega / Profesional</span>
+        <span class="pdesc">Comparto área de interés y quiero conectar</span>
+      </button>
+      <button class="persona-btn" onclick="showContent('curioso')">
+        <span class="icon">🔍</span>
+        <span class="ptitle">Curioso/a en general</span>
+        <span class="pdesc">Solo quiero conocer el perfil sin más contexto</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== CONTENT SCREEN ========== -->
+  <div id="content">
+    <button class="back-btn" onclick="goBack()">← Volver al inicio</button>
+    <div class="section-title" id="section-title">Perfil Profesional</div>
+    <div class="section-sub" id="section-sub">Selecciona el tema que más te interesa</div>
+
+    <div class="topics" id="topics-container"></div>
+    <div id="panels-container"></div>
+
+    <div class="contact-strip">
+      <p><strong>¿Quieres hablar con Nacho directamente?</strong>
+      Estará encantado de contarte más sobre cómo puede ayudarte.</p>
+      <a href="https://www.linkedin.com/in/nachogarcialonso" target="_blank">Conectar en LinkedIn</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>Perfil generado con IA · Nacho García Alonso © 2025</footer>
+
+<script>
+// =========================================================
+//  DATA: contenido por perfil y por tema
+// =========================================================
+const profiles = {
+
+  rrhh: {
+    title: "Perfil para RRHH / Empresa",
+    sub: "Lo más relevante para evaluar la incorporación o colaboración de Nacho",
+    topics: ["Resumen ejecutivo", "Formación acreditada", "Competencias digitales", "Experiencia clave", "Propuesta de valor"],
+    panels: {
+      "Resumen ejecutivo": `
+        <div class="info-block">
+          <h3>¿Quién es Nacho García Alonso?</h3>
+          Profesional con más de 25 años de experiencia en gestión empresarial, transformación digital
+          y, desde 2023, especialización intensa en <strong>Inteligencia Artificial aplicada a los negocios</strong>.
+          Combina una visión estratégica del negocio con dominio operativo de las herramientas tecnológicas más actuales.
+          Perfil único que une <em>capacidad analítica, vocación docente y orientación a resultados</em>.
+        </div>
+        <div class="info-block">
+          <h3>Datos clave</h3>
+          <strong>Ubicación:</strong> País Vasco · <strong>Disponibilidad:</strong> Proyectos presenciales y remotos<br>
+          <strong>Idiomas:</strong> Español nativo, inglés profesional<br>
+          <strong>Enfoque actual:</strong> Transformación digital PYME, automatización con IA, formación corporativa
+        </div>
+        <div class="tag-cloud">
+          <span class="tag">+25 años experiencia</span>
+          <span class="tag green">IA aplicada al negocio</span>
+          <span class="tag orange">Automatización</span>
+          <span class="tag purple">Formación corporativa</span>
+          <span class="tag">Transformación digital</span>
+        </div>
+      `,
+      "Formación acreditada": `
+        <div class="info-block">
+          <h3>Certificaciones destacadas</h3>
+          <strong>Programa Avanzado en Inteligencia Artificial</strong> · EADIC (2024-2025)<br>
+          Formación de máxima exigencia en IA: modelos de lenguaje, automatización, agentes, visión artificial, estrategia empresarial con IA.
+        </div>
+        <div class="info-block">
+          <strong>Programa Generación Digital PYMES 2025</strong> · EADIC<br>
+          Especialización en transformación digital para empresas: digitalización de procesos, marketing digital, gestión con IA.
+        </div>
+        <div class="info-block">
+          <strong>Automatización Empresarial aplicando IA</strong> · EADIC (nov 2025)<br>
+          Herramientas de automatización: n8n, Make, APIs de IA, integración de sistemas.
+        </div>
+        <div class="info-block">
+          <h3>Certificaciones anteriores relevantes</h3>
+          PMI-ACP (Agile Certified Practitioner) · Scrum Manager · Web Analytics · SEO · WordPress · Google Analytics
+        </div>
+        <div class="tag-cloud">
+          <span class="tag green">EADIC certificado</span>
+          <span class="tag">PMI-ACP</span>
+          <span class="tag orange">Learning Heroes</span>
+          <span class="tag">Centenares de cursos</span>
+        </div>
+      `,
+      "Competencias digitales": `
+        <div class="info-block">
+          <h3>Inteligencia Artificial</h3>
+          ChatGPT (avanzado), Google Gemini, Claude, GPTs personalizados, Agentes IA, NotebookLM (pionero en su adopción), generación de imágenes con IA, IA para publicidad y redes sociales, estrategia de negocio con IA.
+        </div>
+        <div class="info-block">
+          <h3>Automatización</h3>
+          <strong>n8n</strong> (workflows complejos), <strong>Make</strong> (ex-Integromat), <strong>Zapier</strong>,
+          APIs REST, automatización de procesos empresariales.
+        </div>
+        <div class="info-block">
+          <h3>Marketing Digital & Productividad</h3>
+          SEO, Web Analytics, Redes Sociales, Canva, Webflow, WordPress, Trello, Google Workspace.
+        </div>
+        <div class="info-block">
+          <h3>Metodologías</h3>
+          Agile, Scrum, Kanban, gestión de proyectos, pensamiento estratégico.
+        </div>
+      `,
+      "Experiencia clave": `
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">2023 – hoy</div>
+            <div class="tl-text"><strong>Especialización en IA</strong> — Primera promoción Learning Heroes. Centenares de horas de formación en IA generativa, agentes, automatización. Descubridor y evangelizador de NotebookLM en su entorno.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2020 – 2023</div>
+            <div class="tl-text"><strong>Transformación digital</strong> — Dominio de herramientas de automatización (Zapier, Make, n8n), Webflow, productividad avanzada.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2010 – 2020</div>
+            <div class="tl-text"><strong>Marketing digital & gestión</strong> — SEO, web analytics, metodologías ágiles (PMI-ACP, Scrum), WordPress, gestión de proyectos.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Antes de 2010</div>
+            <div class="tl-text"><strong>Gestión empresarial</strong> — Más de 25 años de experiencia acumulada en entornos empresariales del País Vasco.</div>
+          </div>
+        </div>
+      `,
+      "Propuesta de valor": `
+        <div class="highlight-box">
+          <h3>¿Por qué Nacho?</h3>
+          <ul>
+            <li><span>🧠</span><span>Combina visión de negocio con dominio técnico real de las herramientas de IA más actuales</span></li>
+            <li><span>🚀</span><span>Early adopter y evangelizador: conoce las herramientas antes de que sean mainstream</span></li>
+            <li><span>📚</span><span>Aprendizaje continuo certificado: cientos de formaciones, varios másteres, primera promo Learning Heroes</span></li>
+            <li><span>🤝</span><span>Vocación de compartir conocimiento y formar a equipos en nuevas tecnologías</span></li>
+            <li><span>🏭</span><span>Experiencia directa aplicando IA y automatización en contextos empresariales reales del País Vasco</span></li>
+          </ul>
+        </div>
+      `
+    }
+  },
+
+  cliente: {
+    title: "¿En qué puede ayudarte Nacho?",
+    sub: "Conoce qué soluciones concretas puede aportar a tu negocio",
+    topics: ["¿Qué hace?", "IA para tu empresa", "Automatización", "Formación equipos", "Casos de uso"],
+    panels: {
+      "¿Qué hace?": `
+        <div class="info-block">
+          <h3>Nacho como consultor digital</h3>
+          Nacho ayuda a empresas —especialmente PYMEs— a dar el salto a la era digital con herramientas
+          concretas y resultados medibles. No vende humo: <strong>él mismo usa y domina las herramientas</strong>
+          que recomienda, y lleva años acompañando a organizaciones en su transformación.
+        </div>
+        <div class="info-block">
+          <h3>Sus 3 grandes áreas de valor</h3>
+          <strong>1. Implantación de IA en procesos de negocio</strong> — Identificar qué tareas pueden automatizarse o mejorarse con IA, y hacerlo realidad.<br><br>
+          <strong>2. Automatización de flujos de trabajo</strong> — Conectar herramientas, eliminar tareas manuales repetitivas y ganar tiempo valioso.<br><br>
+          <strong>3. Formación práctica</strong> — Enseñar a tu equipo a sacar partido de la IA y la digitalización en su trabajo diario.
+        </div>
+      `,
+      "IA para tu empresa": `
+        <div class="info-block">
+          <h3>¿Qué puede hacer la IA por tu negocio?</h3>
+          Nacho te ayuda a identificar y aplicar casos concretos de IA en tu empresa:
+          atención al cliente, generación de contenido, análisis de datos, asistentes internos,
+          automatización de informes, estrategia de marketing con IA...
+        </div>
+        <div class="info-block">
+          <h3>Herramientas que domina y puede implementar</h3>
+          <strong>ChatGPT / GPTs personalizados</strong> — Asistentes a medida para tu negocio<br>
+          <strong>Google Gemini</strong> — Integrado en el ecosistema Google Workspace<br>
+          <strong>NotebookLM</strong> — Análisis de documentos e información empresarial<br>
+          <strong>Claude (Anthropic)</strong> — Razonamiento avanzado y análisis<br>
+          <strong>Generación de imágenes IA</strong> — Para marketing y comunicación
+        </div>
+        <div class="info-block">
+          <h3>Especialmente útil para PYMES</h3>
+          Nacho tiene el Certificado del Programa Generación Digital PYMES (EADIC 2025),
+          con foco específico en cómo las empresas pequeñas y medianas pueden competir usando IA sin grandes inversiones.
+        </div>
+      `,
+      "Automatización": `
+        <div class="info-block">
+          <h3>Recupera horas de trabajo cada semana</h3>
+          La automatización permite que tu equipo deje de hacer tareas repetitivas
+          y se centre en lo que realmente aporta valor. Nacho diseña e implanta flujos
+          automatizados conectando tus herramientas actuales.
+        </div>
+        <div class="info-block">
+          <h3>Herramientas de automatización que maneja</h3>
+          <strong>n8n</strong> — Automatización open-source, muy flexible y potente<br>
+          <strong>Make (ex-Integromat)</strong> — Flujos visuales entre aplicaciones<br>
+          <strong>Zapier</strong> — Automatizaciones rápidas entre apps populares<br>
+          <strong>APIs de IA</strong> — Integración directa con modelos de lenguaje
+        </div>
+        <div class="tag-cloud">
+          <span class="tag">CRM automation</span>
+          <span class="tag green">Email workflows</span>
+          <span class="tag orange">Reporting automático</span>
+          <span class="tag">Social media auto</span>
+          <span class="tag purple">Notificaciones</span>
+          <span class="tag">Integración de datos</span>
+        </div>
+      `,
+      "Formación equipos": `
+        <div class="info-block">
+          <h3>Forma a tu equipo en IA y herramientas digitales</h3>
+          Nacho tiene un fuerte perfil formador: ha pasado por decenas de formaciones
+          como alumno y sabe perfectamente qué necesita saber alguien que empieza.
+          Imparte talleres y formaciones <strong>prácticas, sin tecnicismos</strong>, adaptadas
+          al nivel y sector de tu empresa.
+        </div>
+        <div class="info-block">
+          <h3>Temas de formación disponibles</h3>
+          ✓ Introducción a la IA para equipos no técnicos<br>
+          ✓ ChatGPT y prompts efectivos para tu trabajo diario<br>
+          ✓ Automatización básica con Make / Zapier<br>
+          ✓ Google Gemini integrado en Google Workspace<br>
+          ✓ IA para marketing y redes sociales<br>
+          ✓ Productividad aumentada con IA (NotebookLM, Copilot, etc.)
+        </div>
+      `,
+      "Casos de uso": `
+        <div class="highlight-box">
+          <h3>Ejemplos reales de lo que puede implementar</h3>
+          <ul>
+            <li><span>📧</span><span>Asistente de respuestas automáticas a clientes con IA, adaptado a tu tono y productos</span></li>
+            <li><span>📊</span><span>Informes de ventas o marketing generados automáticamente cada semana</span></li>
+            <li><span>🤖</span><span>GPT personalizado que conoce tu catálogo, precios y FAQs</span></li>
+            <li><span>📱</span><span>Flujo de publicación automática en redes sociales desde un Google Sheet</span></li>
+            <li><span>🔔</span><span>Alertas y notificaciones inteligentes conectando tu CRM con WhatsApp o email</span></li>
+            <li><span>📁</span><span>Análisis y resumen automático de documentos, contratos o informes con NotebookLM</span></li>
+          </ul>
+        </div>
+      `
+    }
+  },
+
+  colega: {
+    title: "Nacho entre profesionales",
+    sub: "Un perfil para conectar, colaborar e intercambiar conocimiento",
+    topics: ["Stack tecnológico", "Camino en IA", "Comunidad & red", "Proyectos & experimentos", "Filosofía de aprendizaje"],
+    panels: {
+      "Stack tecnológico": `
+        <div class="info-block">
+          <h3>Herramientas de IA que usa en el día a día</h3>
+          <strong>LLMs:</strong> ChatGPT (GPT-4/o), Claude (Anthropic), Google Gemini, Mistral<br>
+          <strong>Multimodal:</strong> DALL·E, Midjourney, herramientas de generación de vídeo con IA<br>
+          <strong>Gestión del conocimiento:</strong> NotebookLM (early adopter y evangelizador)<br>
+          <strong>Agentes:</strong> GPTs personalizados, agentes con n8n, SPRI agents
+        </div>
+        <div class="info-block">
+          <h3>Automatización & no-code</h3>
+          <strong>n8n</strong> — Workflows complejos con nodos de IA integrados<br>
+          <strong>Make</strong> — Automatizaciones visuales multi-app<br>
+          <strong>Zapier</strong> — Integraciones rápidas<br>
+          <strong>APIs:</strong> OpenAI, Anthropic, Google AI Studio
+        </div>
+        <div class="info-block">
+          <h3>Productividad & colaboración</h3>
+          Google Workspace avanzado, Notion, Trello, Webflow, WordPress, Canva, NanoBanana
+        </div>
+      `,
+      "Camino en IA": `
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">Feb 2026 – hoy</div>
+            <div class="tl-text">Cursos SPRI: Agentes IA y GPTs para empresa, Chat de soporte con IA, IA y publicidad, LinkedIn con IA. Redes sociales con IA (Miren Agirregomezkorta).</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Nov-Dic 2025</div>
+            <div class="tl-text">Máster Automatización Empresarial EADIC (G61). NanoBanana (Cámara Comercio Álava). kschool. Estrategia de negocio con IA.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Jul-Oct 2025</div>
+            <div class="tl-text">ChatGPT II, GPTs y Agentes IA (Imanol Teran). Gemini avanzado. Creación imágenes IA. Estrategia de negocio con IA.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Abr-Jun 2025</div>
+            <div class="tl-text">EADIC IA Productividad Empresarial (1ª promo G13). ChatGPT I. Gemini conversacional. IA Generativa en el puesto de trabajo. Promoción de vídeos con IA.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Ene-Mar 2025</div>
+            <div class="tl-text">Gemini (ene 2025, Imanol Teran). Publicidad en redes sociales. IA Diseño Web.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2023 – 2024</div>
+            <div class="tl-text">Arranque intensivo en IA. Primera promoción Learning Heroes. Máster Avanzado IA (EADIC). Canva, automatizaciones, adopción temprana de NotebookLM.</div>
+          </div>
+        </div>
+      `,
+      "Comunidad & red": `
+        <div class="info-block">
+          <h3>Ecosistema profesional</h3>
+          Nacho forma parte activa del ecosistema de innovación del País Vasco:
+          formaciones SPRI (Sociedad para la Transformación Competitiva), Cámara de Comercio de Álava,
+          EADIC, y conectado con formadores y referentes como Imanol Teran y Miren Agirregomezkorta.
+        </div>
+        <div class="info-block">
+          <h3>Primera promoción Learning Heroes</h3>
+          Fue parte de la primera hornada de <strong>Learning Heroes</strong>, lo que le coloca
+          como uno de los exploradores más tempranos de la IA en el ecosistema hispanohablante.
+        </div>
+        <div class="info-block">
+          <h3>Perfil de referencia</h3>
+          Comparte conocimiento, recomendó y popularizó NotebookLM entre sus contactos cuando casi
+          nadie lo conocía. Le motiva la difusión del conocimiento y la democratización de la IA.
+        </div>
+      `,
+      "Proyectos & experimentos": `
+        <div class="info-block">
+          <h3>Lo que experimenta y construye</h3>
+          Nacho no solo estudia: prueba, experimenta y aplica. Algunos proyectos y áreas de exploración:
+        </div>
+        <div class="highlight-box">
+          <h3>Proyectos y experimentos activos</h3>
+          <ul>
+            <li><span>🤖</span><span>Flujos de automatización n8n con nodos de IA para procesos empresariales</span></li>
+            <li><span>📔</span><span>NotebookLM como sistema de gestión del conocimiento empresarial</span></li>
+            <li><span>🎯</span><span>GPTs personalizados para casos de uso específicos de negocio</span></li>
+            <li><span>📹</span><span>Generación y promoción de contenido vídeo con IA</span></li>
+            <li><span>📊</span><span>IA aplicada a estrategia de redes sociales y publicidad digital</span></li>
+            <li><span>🔗</span><span>Integraciones Make/n8n con APIs de modelos de lenguaje</span></li>
+          </ul>
+        </div>
+      `,
+      "Filosofía de aprendizaje": `
+        <div class="info-block">
+          <h3>Aprender haciendo, siempre</h3>
+          Nacho tiene cientos de cursos completados. No colecciona certificados: aprende para aplicar.
+          Su patrón es consistente: detecta una tecnología emergente, se forma intensamente,
+          la experimenta y la incorpora a su práctica profesional.
+        </div>
+        <div class="info-block">
+          <h3>Early adopter por naturaleza</h3>
+          Fue de los primeros en adoptar NotebookLM, está en cursos sobre NanoBanana, n8n avanzado
+          y agentes IA mientras la mayoría aún aprende los fundamentos de ChatGPT.
+          <strong>Siempre va un paso por delante.</strong>
+        </div>
+        <div class="info-block">
+          <h3>Aprendizaje como estilo de vida</h3>
+          Desde 2010 con SEO y analytics hasta 2026 con agentes IA y automatización avanzada,
+          Nacho ha mantenido un ritmo de aprendizaje constante durante más de 15 años.
+          La tecnología cambia; su curiosidad, no.
+        </div>
+      `
+    }
+  },
+
+  curioso: {
+    title: "Conoce a Nacho García Alonso",
+    sub: "Un perfil completo para quien quiere conocer al profesional",
+    topics: ["¿Quién es?", "Formación & certificados", "Especialidades", "IA & Automatización", "Trayectoria"],
+    panels: {
+      "¿Quién es?": `
+        <div class="info-block">
+          <h3>En pocas palabras</h3>
+          Nacho García Alonso es un profesional del País Vasco con más de 25 años de experiencia
+          que ha convertido el aprendizaje continuo en su sello personal. Desde gestor empresarial
+          hasta explorador de la frontera tecnológica, su recorrido refleja una curiosidad insaciable
+          por entender cómo funciona el mundo y cómo mejorarlo con las herramientas disponibles.
+        </div>
+        <div class="info-block">
+          <h3>Su momento presente</h3>
+          Desde 2023 vive inmerso en el universo de la Inteligencia Artificial: cursos, másteres,
+          experimentos, aplicaciones reales. Ha completado el <strong>Programa Avanzado en IA de EADIC</strong>
+          y el <strong>Programa Generación Digital PYMES</strong>, y sigue formándose activamente en 2026
+          con cursos de agentes IA, automatización y estrategia digital.
+        </div>
+        <div class="info-block">
+          <h3>Un dato que le define</h3>
+          Fue uno de los primeros en descubrir y difundir <strong>NotebookLM</strong> de Google
+          en su entorno, mucho antes de que se popularizara. Eso resume bien quién es Nacho:
+          siempre explorando el horizonte tecnológico antes que los demás.
+        </div>
+      `,
+      "Formación & certificados": `
+        <div class="info-block">
+          <h3>Certificaciones recientes</h3>
+          🎓 <strong>Programa Avanzado en Inteligencia Artificial</strong> · EADIC<br>
+          🎓 <strong>Programa Generación Digital PYMES 2025</strong> · EADIC<br>
+          🎓 <strong>Automatización Empresarial con IA</strong> · EADIC (G61, 2025)<br>
+          🎓 <strong>Learning Heroes</strong> · Primera promoción (2023)<br>
+          🎓 <strong>GPTs y Agentes IA</strong> · SPRI / Imanol Teran (2025-2026)
+        </div>
+        <div class="info-block">
+          <h3>Certificaciones históricas</h3>
+          PMI-ACP (Agile Certified Practitioner) · Scrum Manager · Web Analytics ·
+          SEO avanzado · WordPress · Google Analytics · Kanban · Trello · Webflow · Canva
+        </div>
+        <div class="info-block">
+          <h3>Formadores con los que ha trabajado</h3>
+          Imanol Teran, Miren Agirregomezkorta Iza, Miguel Sánchez, formadores EADIC,
+          kschool, profesores SPRI y Cámara de Comercio de Álava — una red de referentes del ecosistema digital vasco.
+        </div>
+      `,
+      "Especialidades": `
+        <div class="info-block">
+          <h3>Las 5 grandes áreas de Nacho</h3>
+          <strong>1. Inteligencia Artificial aplicada</strong> — Uso estratégico y operativo de IA en entornos empresariales.<br><br>
+          <strong>2. Automatización de procesos</strong> — n8n, Make, Zapier, integraciones con APIs.<br><br>
+          <strong>3. Transformación digital PYME</strong> — Digitalización práctica y accesible para empresas medianas y pequeñas.<br><br>
+          <strong>4. Marketing y comunicación digital</strong> — SEO, analytics, redes sociales, publicidad, contenido con IA.<br><br>
+          <strong>5. Gestión ágil de proyectos</strong> — Agile, Scrum, Kanban, PMI-ACP.
+        </div>
+      `,
+      "IA & Automatización": `
+        <div class="info-block">
+          <h3>Herramientas de IA que domina</h3>
+          ChatGPT · Claude · Google Gemini · NotebookLM · GPTs personalizados · Agentes IA ·
+          Generación de imágenes (Midjourney, DALL·E) · IA para vídeo · NanoBanana · IA en publicidad
+        </div>
+        <div class="info-block">
+          <h3>Automatización</h3>
+          <strong>n8n</strong> (workflows avanzados) · <strong>Make</strong> (automatizaciones visuales) ·
+          <strong>Zapier</strong> (integraciones rápidas) · APIs de OpenAI, Anthropic y Google AI
+        </div>
+        <div class="highlight-box">
+          <h3>¿Qué le hace diferente en IA?</h3>
+          <ul>
+            <li><span>⚡</span><span>Early adopter: usa las herramientas antes de que se pongan de moda</span></li>
+            <li><span>🔬</span><span>Mentalidad experimental: prueba, falla, aprende y aplica</span></li>
+            <li><span>🏫</span><span>Formación continua certificada: másteres, píldoras, comunidades</span></li>
+            <li><span>🌍</span><span>Visión práctica: siempre conecta la tecnología con el negocio real</span></li>
+          </ul>
+        </div>
+      `,
+      "Trayectoria": `
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">2023 → 2026</div>
+            <div class="tl-text"><strong>Era IA</strong> — Learning Heroes (1ª promo), másteres EADIC, decenas de cursos IA. ChatGPT, Gemini, Claude, NotebookLM, GPTs, agentes, automatización con IA. Proceso activo y en curso.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2020 → 2022</div>
+            <div class="tl-text"><strong>Automatización & no-code</strong> — Zapier, Webflow, productividad avanzada, primeros pasos en integración de herramientas digitales.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2012 → 2019</div>
+            <div class="tl-text"><strong>Marketing digital maduro</strong> — Analytics, SEO, WordPress avanzado, redes sociales, gestión de proyectos digitales.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2010 → 2012</div>
+            <div class="tl-text"><strong>Primeros pasos digitales</strong> — SEO, web analytics, metodologías ágiles (PMI-ACP, Scrum, Kanban), certificaciones internacionales.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">Antes de 2010</div>
+            <div class="tl-text"><strong>Base empresarial</strong> — Más de 25 años de gestión empresarial en el ecosistema del País Vasco.</div>
+          </div>
+        </div>
+      `
+    }
+  }
+};
+
+// =========================================================
+//  LÓGICA DE NAVEGACIÓN
+// =========================================================
+let currentProfile = null;
+
+function showContent(profileKey) {
+  currentProfile = profileKey;
+  const profile = profiles[profileKey];
+
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('section-title').textContent = profile.title;
+  document.getElementById('section-sub').textContent = profile.sub;
+
+  // Render topics
+  const topicsEl = document.getElementById('topics-container');
+  topicsEl.innerHTML = '';
+  profile.topics.forEach((topic, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'topic-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = topic;
+    btn.onclick = () => showPanel(topic, btn);
+    topicsEl.appendChild(btn);
+  });
+
+  // Render panels
+  const panelsEl = document.getElementById('panels-container');
+  panelsEl.innerHTML = '';
+  profile.topics.forEach((topic, i) => {
+    const div = document.createElement('div');
+    div.className = 'panel' + (i === 0 ? ' active' : '');
+    div.id = 'panel-' + topic.replace(/\s+/g, '-');
+    div.innerHTML = profile.panels[topic];
+    panelsEl.appendChild(div);
+  });
+}
+
+function showPanel(topic, btn) {
+  // Toggle topic buttons
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Toggle panels
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + topic.replace(/\s+/g, '-')).classList.add('active');
+}
+
+function goBack() {
+  document.getElementById('content').style.display = 'none';
+  document.getElementById('welcome').style.display = 'block';
+}
+</script>
+</body>
+</html>
